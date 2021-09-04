@@ -2,13 +2,19 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: ./src
     ports: 
       - "5000:5000"
     volumes:
-      - .:/code
+      - ./src:/code
     environment:
       FLASK_ENV: development
 
-  redis:
-    image: "redis:alpine"
+  mysqldb:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD:password
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
